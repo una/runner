@@ -148,10 +148,7 @@ var templateCompile = function (paths, file, options) {
   //////////////////////////////
   // Create a list of patterns for navigation
   //////////////////////////////
-  var util = require('util'); //temp
-
-  // patternList.push({'name': paths.inner, 'path': paths.absolute});
-  patternList += '<li><a href="' + paths.absolute + '">' + paths.inner + '</a></li>\n';
+  patternList += '<li><a href="/' + paths.inner + '">' + paths.inner + '</a></li>\n';
   fs.writeFile('library/templates/_pattern-list.html', patternList);
 
   return new Buffer(render);
