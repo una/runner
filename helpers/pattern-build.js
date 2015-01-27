@@ -12,7 +12,7 @@ var through = require('through2'),
     fs = require('fs-extra'),
     marked = require('marked'),
     PluginError = gutil.PluginError,
-    patternList = [],
+    patternList = '',
     PLUGIN_NAME = 'pattern-build';
 
 //////////////////////////////
@@ -148,7 +148,11 @@ var templateCompile = function (paths, file, options) {
   //////////////////////////////
   // Create a list of patterns for navigation
   //////////////////////////////
-  patternList.push({'name': paths.inner, 'path': paths.absolute});
+  var util = require('util'); //temp
+
+  // patternList.push({'name': paths.inner, 'path': paths.absolute});
+  patternList += '<li><a href="' + paths.absolute + '">' + paths.inner + '</a></li>\n';
+  fs.writeFile('library/templates/_pattern-list.html', patternList);
 
   return new Buffer(render);
 }
@@ -210,11 +214,8 @@ module.exports = function (options) {
         file.path = paths.folder + '/index.html';
       }
 
-      var util = require('util'); //temp
-
       // Tell the user that stuff's gone down.
       gutil.log('Pattern ' + gutil.colors.magenta(paths.inner) + ' compiled');
-      gutil.log('Pattern List ' + gutil.colors.yellow(util.inspect(patternList))); //temp
     }
 
     //////////////////////////////
